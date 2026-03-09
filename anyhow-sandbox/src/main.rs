@@ -1,30 +1,31 @@
 #![allow(unused)]
 use std::error::Error;
-use std::fs::File;
-use std::io::Read;
 
 #[derive(Debug)]
-pub struct MyStruct {
-    name: String,
-}
+struct MyErrorA;
+#[derive(Debug)]
+struct MyErrorB;
 
-impl std::fmt::Display for MyStruct {
+impl std::fmt::Display for MyErrorA {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.name)
+        write!(f, "MyErrorA")
     }
 }
 
-impl Error for MyStruct {}
+impl std::fmt::Display for MyErrorB {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "MyErrorA")
+    }
+}
 
-pub struct NoErrorTrait;
+impl Error for MyErrorA {}
+impl Error for MyErrorB {}
 
-fn read_file() -> Result<String, std::io::Error> {
-    let mut file = File::open("data.txt")?;
-    let mut content = String::new();
-    file.read_to_string(&mut content)?;
-    Ok(content)
+fn example() -> Result<i32, Box<dyn Error>> {
+    // Err(Box::new("hello".to_string()))
+    Err(Box::new(MyErrorA))
 }
 
 fn main() {
-    let _ = read_file();
+    let _ = example();
 }
