@@ -1,7 +1,6 @@
 [package]
-name = "anyhow-sandbox"
+name = "box-dyn-error-dynamics"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-anyhow = "1"
